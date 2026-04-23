@@ -1,0 +1,60 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Jobs\SendContactNotificationJob;
+use App\Models\ContactRequest;
+use App\Models\NotificationLog;
+use Illuminate\Http\Request;
+
+class ContactController extends Controller
+{
+    public function store(Request $request)
+    {
+        $participant = $request->attributes->get('participant');
+
+        $data = $request->validate([
+            'to_participant_id' => ['required', 'integer', 'exists:participants,id'],
+        ]);
+
+        $toId = (int) $data['to_participant_id'];
+
+        if ($toId === $participant->id) {
+            return back()->withErrors(['to_participant_id' => '自分自身には送れません']);
+        }
+
+        $existing = ContactRequest::where('from_participant_id', $participant->id)
+            ->where('to_participant_id', $toId)
+            ->first();
+
+        $contactRequest = ContactRequest::create([
+            'from_participant_id'   => $participant->id,
+            'to_participant_id'     => $toId,
+            'is_resend'             => (bool) $existing,
+            'created_at'            => now(),
+        ]);
+
+        foreach ([$participant->id, $toId] as $targetId) {
+            $target = \App\Models\Participant::find($targetId);
+            if (!$target) continue;
+            $subject = '【ビジネスマッチング】連絡希望のお知らせ';
+            $log = NotificationLog::create([
+                'contact_request_id'    => $contactRequest->id,
+                'target_participant_id' => $targetId,
+                'target_email'          => $target->email,
+                'mail_subject'          => $subject,
+                'send_status'           => 'pending',
+                'retry_count'           => 0,
+                'created_at'            => now(),
+            ]);
+            SendContactNotificationJob::dispatch($log->id);
+        }
+
+        return redirect()->route('contact.sent');
+    }
+
+    public function sent()
+    {
+        return view('matching.sent');
+    }
+}

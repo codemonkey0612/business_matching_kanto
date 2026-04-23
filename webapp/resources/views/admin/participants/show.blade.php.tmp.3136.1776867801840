@@ -1,0 +1,160 @@
+@extends('layouts.admin')
+@section('title', $participant->name ?? '参加者詳細')
+
+@section('content')
+<div class="flex items-center gap-3 mb-6">
+  <a href="{{ route('admin.participants.index') }}" class="text-sm text-gray-500 hover:text-gray-900">← 参加者一覧</a>
+  <span class="text-gray-300">/</span>
+  <h2 class="font-bold text-xl">{{ $participant->name ?? '（未入力）' }}</h2>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+  {{-- 基本情報 --}}
+  <div class="bg-white rounded-2xl border border-gray-200 p-5">
+    <h3 class="font-bold text-sm mb-3 text-gray-700">基本情報</h3>
+    <dl class="space-y-2 text-sm">
+      <div class="flex gap-2"><dt class="text-gray-500 w-24 shrink-0">氏名</dt><dd class="font-medium">{{ $participant->name ?? '—' }}（{{ $participant->name_kana ?? '—' }}）</dd></div>
+      <div class="flex gap-2"><dt class="text-gray-500 w-24 shrink-0">役職</dt><dd>{{ $participant->role_title ?? '—' }}</dd></div>
+      <div class="flex gap-2"><dt class="text-gray-500 w-24 shrink-0">メール</dt><dd>{{ $participant->email }}</dd></div>
+      <div class="flex gap-2"><dt class="text-gray-500 w-24 shrink-0">電話</dt><dd>{{ $participant->phone_number ?? '—' }}</dd></div>
+      <div class="flex gap-2"><dt class="text-gray-500 w-24 shrink-0">状態</dt>
+        <dd>
+          @if($participant->registration_status === 'completed')
+            <span class="bg-emerald-100 text-emerald-700 rounded-full px-2 py-0.5 text-xs font-bold">完了</span>
+          @else
+            <span class="bg-yellow-100 text-yellow-700 rounded-full px-2 py-0.5 text-xs font-bold">途中</span>
+          @endif
+        </dd>
+      </div>
+      <div class="flex gap-2"><dt class="text-gray-500 w-24 shrink-0">登録日</dt><dd class="text-xs text-gray-500">{{ $participant->created_at->format('Y/m/d H:i') }}</dd></div>
+    </dl>
+  </div>
+
+  {{-- 会社情報 --}}
+  <div class="bg-white rounded-2xl border border-gray-200 p-5">
+    <h3 class="font-bold text-sm mb-3 text-gray-700">会社情報</h3>
+    @if($participant->company)
+    <dl class="space-y-2 text-sm">
+      <div class="flex gap-2"><dt class="text-gray-500 w-24 shrink-0">会社名</dt><dd class="font-medium">{{ $participant->company->company_name }}</dd></div>
+      <div class="flex gap-2"><dt class="text-gray-500 w-24 shrink-0">業種</dt><dd>{{ $participant->company->industry?->name ?? '—' }}</dd></div>
+      <div class="flex gap-2"><dt class="text-gray-500 w-24 shrink-0">都道府県</dt><dd>{{ $participant->company->prefecture?->name ?? '—' }}</dd></div>
+      <div class="flex gap-2"><dt class="text-gray-500 w-24 shrink-0">住所</dt><dd>{{ $participant->company->address_text }}</dd></div>
+    </dl>
+    @else
+    <p class="text-sm text-gray-400">未入力</p>
+    @endif
+  </div>
+</div>
+
+{{-- 事業内容・課題・相手 --}}
+@if($participant->profile)
+<div class="bg-white rounded-2xl border border-gray-200 p-5 mb-4">
+  <h3 class="font-bold text-sm mb-3 text-gray-700">事業内容・希望</h3>
+  <div class="space-y-3 text-sm">
+    <div><span class="text-gray-500 text-xs">事業内容①</span><p class="font-medium">{{ $participant->profile->business_summary_1 }}</p></div>
+    @if($participant->profile->business_summary_2)
+    <div><span class="text-gray-500 text-xs">事業内容②</span><p>{{ $participant->profile->business_summary_2 }}</p></div>
+    @endif
+    @if($participant->profile->issue_other_text)
+    <div><span class="text-gray-500 text-xs">課題（その他）</span><p>{{ $participant->profile->issue_other_text }}</p></div>
+    @endif
+    @if($participant->profile->partner_other_text)
+    <div><span class="text-gray-500 text-xs">求める相手（その他）</span><p>{{ $participant->profile->partner_other_text }}</p></div>
+    @endif
+  </div>
+</div>
+@endif
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+  <div class="bg-white rounded-2xl border border-gray-200 p-4">
+    <h3 class="font-bold text-xs text-gray-500 mb-2">希望目的</h3>
+    <div class="flex flex-wrap gap-1.5">
+      @forelse($participant->purposes as $p)
+        <span class="bg-gray-100 text-gray-700 rounded-full px-2.5 py-1 text-xs">{{ $p->name }}</span>
+      @empty <span class="text-xs text-gray-400">未選択</span>
+      @endforelse
+    </div>
+  </div>
+  <div class="bg-white rounded-2xl border border-gray-200 p-4">
+    <h3 class="font-bold text-xs text-gray-500 mb-2">現在の課題</h3>
+    <div class="flex flex-wrap gap-1.5">
+      @forelse($participant->issues as $iss)
+        <span class="bg-gray-100 text-gray-700 rounded-full px-2.5 py-1 text-xs">{{ $iss->name }}</span>
+      @empty <span class="text-xs text-gray-400">未選択</span>
+      @endforelse
+    </div>
+  </div>
+  <div class="bg-white rounded-2xl border border-gray-200 p-4">
+    <h3 class="font-bold text-xs text-gray-500 mb-2">求めている相手</h3>
+    <div class="flex flex-wrap gap-1.5">
+      @forelse($participant->partnerTypes as $pt)
+        <span class="bg-cyan-50 text-cyan-700 border border-cyan-200 rounded-full px-2.5 py-1 text-xs">{{ $pt->name }}</span>
+      @empty <span class="text-xs text-gray-400">未選択</span>
+      @endforelse
+    </div>
+  </div>
+</div>
+
+{{-- マッチング候補 --}}
+<div class="bg-white rounded-2xl border border-gray-200 overflow-hidden mb-4">
+  <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+    <h3 class="font-bold text-sm">マッチング候補（{{ $participant->matchingCandidates->count() }}件）</h3>
+    <form method="POST" action="{{ route('admin.participants.recalculate', $participant) }}">
+      @csrf
+      <button type="submit" class="text-xs bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-1.5 font-semibold">再計算</button>
+    </form>
+  </div>
+  @if($participant->matchingCandidates->isEmpty())
+    <p class="px-4 py-4 text-sm text-gray-400">候補なし</p>
+  @else
+  <table class="w-full text-sm">
+    <thead class="bg-gray-50"><tr>
+      <th class="px-4 py-2 text-left text-xs text-gray-500">順位</th>
+      <th class="px-4 py-2 text-left text-xs text-gray-500">相手</th>
+      <th class="px-4 py-2 text-left text-xs text-gray-500">ラベル</th>
+      <th class="px-4 py-2 text-left text-xs text-gray-500">スコア</th>
+    </tr></thead>
+    <tbody>
+      @foreach($participant->matchingCandidates as $mc)
+      <tr class="border-t border-gray-100">
+        <td class="px-4 py-2 text-gray-500">{{ $mc->rank_no }}</td>
+        <td class="px-4 py-2 font-medium">
+          <a href="{{ route('admin.participants.show', $mc->candidate) }}" class="hover:underline">
+            {{ $mc->candidate?->company?->company_name ?? '—' }}<br>
+            <span class="text-xs text-gray-500">{{ $mc->candidate?->name }}</span>
+          </a>
+        </td>
+        <td class="px-4 py-2"><span class="bg-emerald-50 text-emerald-700 rounded-full px-2 py-0.5 text-xs">{{ $mc->match_label }}</span></td>
+        <td class="px-4 py-2 text-gray-600">{{ $mc->score_total }}</td>
+      </tr>
+      @endforeach
+    </tbody>
+  </table>
+  @endif
+</div>
+
+{{-- 送信済み連絡希望 --}}
+<div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+  <div class="px-4 py-3 border-b border-gray-100">
+    <h3 class="font-bold text-sm">送信済み連絡希望（{{ $participant->sentContactRequests->count() }}件）</h3>
+  </div>
+  @if($participant->sentContactRequests->isEmpty())
+    <p class="px-4 py-4 text-sm text-gray-400">送信なし</p>
+  @else
+  <table class="w-full text-sm">
+    <thead class="bg-gray-50"><tr>
+      <th class="px-4 py-2 text-left text-xs text-gray-500">送信先</th>
+      <th class="px-4 py-2 text-left text-xs text-gray-500">日時</th>
+    </tr></thead>
+    <tbody>
+      @foreach($participant->sentContactRequests as $cr)
+      <tr class="border-t border-gray-100">
+        <td class="px-4 py-2">{{ $cr->toParticipant?->name ?? '—' }}</td>
+        <td class="px-4 py-2 text-xs text-gray-500">{{ $cr->created_at->format('Y/m/d H:i') }}</td>
+      </tr>
+      @endforeach
+    </tbody>
+  </table>
+  @endif
+</div>
+@endsection

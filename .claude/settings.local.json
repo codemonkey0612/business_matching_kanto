@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:unsplash.com)",
+      "Bash(curl -sL \"https://images.unsplash.com/photo-1578637387939-43c525550085?fm=jpg&q=90&w=3840&auto=format&fit=crop\" -o fuji.jpg)",
+      "Bash(curl -sL \"https://images.unsplash.com/photo-1598957232485-fab51e0ed7e8?fm=jpg&q=90&w=3840&auto=format&fit=crop\" -o sakura.jpg)",
+      "Bash(curl -sL \"https://images.unsplash.com/photo-1558862107-d49ef2a04d72?fm=jpg&q=90&w=3840&auto=format&fit=crop\" -o torii.jpg)",
+      "Bash(curl -sL \"https://images.unsplash.com/photo-1713635632551-e633ee4cb95e?fm=jpg&q=90&w=3840&auto=format&fit=crop\" -o tokyo.jpg)",
+      "Bash(curl -sL \"https://images.unsplash.com/photo-1672758688320-685bb6b36846?fm=jpg&q=90&w=3840&auto=format&fit=crop\" -o garden.jpg)",
+      "Bash(curl -sL \"https://images.unsplash.com/photo-1505814360303-5bfcf2a8acb6?w=3840&q=90&auto=format&fit=crop\" -o tokyo-sunset.jpg)",
+      "Bash(curl -sL \"https://images.unsplash.com/photo-1548783300-70b41bc84f56?w=3840&q=90&auto=format&fit=crop\" -o businessman.jpg)",
+      "Bash(curl -sL \"https://images.unsplash.com/photo-1551322120-c697cf88fbdc?w=3840&q=90&auto=format&fit=crop\" -o tokyo-tower.jpg)",
+      "WebSearch",
+      "WebFetch(domain:nihonium.io)",
+      "WebFetch(domain:github.com)"
+    ]
+  }
+}

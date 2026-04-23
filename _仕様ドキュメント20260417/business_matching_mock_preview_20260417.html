@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ビジネスマッチングシステム 画面モック 20260417</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans JP", sans-serif;
+      background: #eef2f6;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    .page {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+    .hero {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+      margin-bottom: 20px;
+    }
+    .hero h1 { margin: 0 0 8px; font-size: 28px; }
+    .hero p { margin: 0; color: #4b5563; font-size: 15px; }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .flow .item {
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
+      padding: 14px;
+      font-size: 13px;
+    }
+    .flow .num {
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      line-height: 28px;
+      text-align: center;
+      border-radius: 999px;
+      background: #111827;
+      color: #fff;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .section-title { margin: 28px 0 12px; font-size: 22px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    .mock-card {
+      background: #ffffff;
+      border: 1px solid #dbe2ea;
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+    }
+    .mock-head h2 { margin: 0 0 4px; font-size: 20px; }
+    .mock-head p { margin: 0; color: #6b7280; font-size: 13px; }
+    .note {
+      margin-top: 12px;
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 13px;
+      color: #1e3a8a;
+    }
+    .phone {
+      width: 100%;
+      max-width: 390px;
+      margin: 16px auto 0;
+      background: #f3f5f7;
+      border: 10px solid #111827;
+      border-radius: 34px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+    }
+    .mailframe {
+      width: 100%;
+      max-width: 520px;
+      margin: 16px auto 0;
+      background: #ffffff;
+      border: 1px solid #d1d5db;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    }
+    .mail-top, .phone-top {
+      background: #ffffff;
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .phone-top strong, .mail-top strong { display: block; font-size: 16px; }
+    .phone-top span, .mail-top span { display: block; font-size: 12px; color: #6b7280; margin-top: 3px; }
+    .screen, .mail-body { padding: 14px; }
+    .box {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+    .box h3 { margin: 0 0 8px; font-size: 14px; }
+    .field { margin-bottom: 9px; }
+    .field:last-child { margin-bottom: 0; }
+    .field label {
+      display: block;
+      font-size: 11px;
+      color: #4b5563;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    .input, .textarea, .select {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      background: #fff;
+      padding: 10px 11px;
+      font-size: 13px;
+      color: #111827;
+    }
+    .textarea { min-height: 70px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip {
+      padding: 7px 9px;
+      border-radius: 999px;
+      background: #111827;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .chip.gray {
+      background: #f3f4f6;
+      color: #374151;
+      border: 1px solid #d1d5db;
+    }
+    .chip.light {
+      background: #eef2ff;
+      color: #3730a3;
+      border: 1px solid #c7d2fe;
+    }
+    .selector-help {
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      border-radius: 14px;
+      padding: 10px;
+      margin-top: 8px;
+      font-size: 11px;
+      color: #475569;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      background: #111827;
+      color: #fff;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .btn.sub { background: #eef2f7; color: #111827; }
+    .candidate {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 20px;
+      padding: 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+    }
+    .candidate-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .candidate h4 {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+    .match-badge {
+      flex-shrink: 0;
+      background: #ecfdf5;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+      border-radius: 999px;
+      padding: 6px 8px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .meta span {
+      background: #f3f4f6;
+      color: #4b5563;
+      border-radius: 999px;
+      padding: 5px 7px;
+      font-size: 10px;
+    }
+    .candidate-summary {
+      display: grid;
+      gap: 8px;
+    }
+    .summary-row {
+      background: #f8fafc;
+      border: 1px solid #eef2f7;
+      border-radius: 12px;
+      padding: 8px 10px;
+    }
+    .summary-row strong {
+      display: block;
+      font-size: 10px;
+      color: #64748b;
+      margin-bottom: 6px;
+      letter-spacing: 0.02em;
+    }
+    .summary-row span {
+      display: block;
+      font-size: 12px;
+      color: #1f2937;
+      line-height: 1.5;
+      font-weight: 600;
+    }
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .tag-list span {
+      background: #ffffff;
+      color: #334155;
+      border: 1px solid #dbe2ea;
+      border-radius: 999px;
+      padding: 5px 8px;
+      font-size: 10px;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+    .mini-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .mini-tags span {
+      background: #ecfeff;
+      color: #155e75;
+      border: 1px solid #bae6fd;
+      border-radius: 999px;
+      padding: 5px 8px;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .action-note {
+      font-size: 10px;
+      color: #64748b;
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+    .actions { display: flex; gap: 8px; margin-top: 12px; align-items: center; }
+    .actions .btn {
+      margin-top: 0;
+      width: auto;
+      flex: 1;
+      padding: 10px;
+      font-size: 12px;
+    }
+    .success {
+      background: #ecfdf5;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+      border-radius: 16px;
+      padding: 14px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .metric {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 12px;
+    }
+    .metric small { display: block; font-size: 11px; color: #6b7280; margin-bottom: 5px; }
+    .metric strong { font-size: 20px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 9px;
+      border-bottom: 1px solid #eef2f7;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: #f8fafc; color: #475569; }
+    tr:last-child td { border-bottom: none; }
+    .mail-box {
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 12px;
+      color: #374151;
+    }
+    .mail-subject { font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+    .footnote {
+      margin-top: 24px;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 20px;
+      padding: 18px;
+      color: #4b5563;
+      font-size: 14px;
+    }
+    @media (max-width: 980px) {
+      .grid { grid-template-columns: 1fr; }
+      .flow { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="hero">
+      <h1>ビジネスマッチングシステム 画面モック</h1>
+      <p>今回のビジネスマッチングシステムについて、参加者がどう使い、連絡した後に何が起き、運営側が何を確認できるかをイメージしやすいように、認識合わせのためまとめた画面サンプルです。</p>
+      <div class="flow">
+        <div class="item"><div class="num">1</div><strong>事前登録</strong><br>参加者が自分の情報を入力します。</div>
+        <div class="item"><div class="num">2</div><strong>候補表示</strong><br>条件に合う相手が最大10件表示されます。</div>
+        <div class="item"><div class="num">3</div><strong>連絡希望</strong><br>一覧画面からそのまま送れます。</div>
+        <div class="item"><div class="num">4</div><strong>メール通知</strong><br>双方に連絡先つきメールが届きます。</div>
+        <div class="item"><div class="num">5</div><strong>運営確認</strong><br>利用状況を管理画面で見られます。</div>
+      </div>
+    </div>
+
+    <h2 class="section-title">参加者が使う画面</h2>
+    <div class="grid">
+      <div class="mock-card">
+        <div class="mock-head">
+          <h2>1. 登録画面</h2>
+          <p>参加者が会社情報・課題・求める相手を入力する画面です。</p>
+        </div>
+        <div class="note">現在の課題と求めている相手は、自由入力だけでなく、あらかじめ用意した選択肢から複数選べるようにします。これにより、システムが相手を探しやすくなります。</div>
+        <div class="phone">
+          <div class="phone-top"><strong>参加者登録</strong><span>イベント参加前に入力しておく画面</span></div>
+          <div class="screen">
+            <div class="box">
+              <h3>基本情報</h3>
+              <div class="field"><label>会社名</label><div class="input">株式会社サンプル</div></div>
+              <div class="field"><label>氏名</label><div class="input">山田 太郎</div></div>
+              <div class="field"><label>役職</label><div class="input">代表取締役</div></div>
+              <div class="field"><label>業種</label><div class="select">IT・Web</div></div>
+              <div class="field"><label>住所</label><div class="input">東京都渋谷区○○1-2-3</div></div>
+              <div class="field"><label>都道府県</label><div class="select">東京都</div></div>
+            </div>
+            <div class="box">
+              <h3>事業・希望内容</h3>
+              <div class="field"><label>事業内容</label><div class="textarea">中小企業向けのWeb制作と業務改善支援を行っています。</div></div>
+              <div class="field"><label>現在の課題（複数選択）</label>
+                <div class="chips">
+                  <span class="chip">営業先を増やしたい</span>
+                  <span class="chip">協業先を見つけたい</span>
+                  <span class="chip gray">検索して追加</span>
+                </div>
+              </div>
+              <div class="field"><label>現在の課題（その他）</label><div class="input">地域の紹介ネットワークも広げたい</div></div>
+              <div class="field"><label>求めている相手（複数選択）</label>
+                <div class="chips">
+                  <span class="chip light">営業支援会社</span>
+                  <span class="chip light">動画制作会社</span>
+                  <span class="chip light">採用支援会社</span>
+                  <span class="chip gray">検索して追加</span>
+                </div>
+              </div>
+              <div class="field"><label>求めている相手（その他）</label><div class="input">中小企業向け営業に強い会社</div></div>
+              <div class="field"><label>希望目的</label><div class="chips"><span class="chip">仕事を依頼したい</span><span class="chip">協業したい</span></div></div>
+            </div>
+            <button class="btn">登録内容を保存する</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mock-card">
+        <div class="mock-head">
+          <h2>2. おすすめ相手一覧</h2>
+          <p>入力内容をもとに、相性のよさそうな相手を最大10件表示する画面です。</p>
+        </div>
+        <div class="note">候補詳細画面は作らず、この一覧の中で必要な情報を見て、そのまま「連絡したい」まで進める形にしています。文章を減らし、タグ中心で判断しやすい見せ方にしています。</div>
+        <div class="phone">
+          <div class="phone-top"><strong>おすすめ相手</strong><span>あなたに合いそうな相手が最大10件表示されます</span></div>
+          <div class="screen">
+            <div class="candidate">
+              <div class="candidate-head">
+                <h4>株式会社リンクパートナー</h4>
+                <span class="match-badge">相性が高い</span>
+              </div>
+              <div class="meta"><span>営業支援</span><span>東京都</span><span>協業歓迎</span></div>
+              <div class="action-note">上の3つを見ると、どんな相手かをすぐ判断できます</div>
+              <div class="candidate-summary">
+                <div class="summary-row">
+                  <strong>強み</strong>
+                  <div class="mini-tags">
+                    <span>営業代行</span>
+                    <span>商談設定</span>
+                    <span>営業体制づくり</span>
+                  </div>
+                </div>
+                <div class="summary-row">
+                  <strong>今の課題</strong>
+                  <div class="tag-list">
+                    <span>協業先を増やしたい</span>
+                    <span>継続受注を増やしたい</span>
+                  </div>
+                </div>
+                <div class="summary-row">
+                  <strong>求めている相手</strong>
+                  <div class="tag-list">
+                    <span>Web制作会社</span>
+                    <span>採用支援会社</span>
+                  </div>
+                </div>
+              </div>
+              <div class="actions"><button class="btn">この相手に連絡したい</button></div>
+            </div>
+            <div class="candidate">
+              <div class="candidate-head">
+                <h4>合同会社ムービーグロース</h4>
+                <span class="match-badge">相性が高い</span>
+              </div>
+              <div class="meta"><span>動画制作</span><span>神奈川県</span><span>受注歓迎</span></div>
+              <div class="candidate-summary">
+                <div class="summary-row">
+                  <strong>強み</strong>
+                  <div class="mini-tags">
+                    <span>企業紹介動画</span>
+                    <span>採用動画</span>
+                    <span>SNS向け動画</span>
+                  </div>
+                </div>
+                <div class="summary-row">
+                  <strong>今の課題</strong>
+                  <div class="tag-list">
+                    <span>継続案件を増やしたい</span>
+                  </div>
+                </div>
+                <div class="summary-row">
+                  <strong>求めている相手</strong>
+                  <div class="tag-list">
+                    <span>営業支援会社</span>
+                    <span>Web制作会社</span>
+                  </div>
+                </div>
+              </div>
+              <div class="actions"><button class="btn">この相手に連絡したい</button></div>
+            </div>
+            <div class="candidate">
+              <div class="candidate-head">
+                <h4>株式会社人材ブリッジ</h4>
+                <span class="match-badge">相談向き</span>
+              </div>
+              <div class="meta"><span>採用支援</span><span>埼玉県</span><span>相談歓迎</span></div>
+              <div class="candidate-summary">
+                <div class="summary-row">
+                  <strong>強み</strong>
+                  <div class="mini-tags">
+                    <span>採用広報</span>
+                    <span>母集団形成</span>
+                    <span>採用導線改善</span>
+                  </div>
+                </div>
+                <div class="summary-row">
+                  <strong>今の課題</strong>
+                  <div class="tag-list">
+                    <span>県外企業との接点を増やしたい</span>
+                  </div>
+                </div>
+                <div class="summary-row">
+                  <strong>求めている相手</strong>
+                  <div class="tag-list">
+                    <span>Web制作会社</span>
+                    <span>経営者同士の相談相手</span>
+                  </div>
+                </div>
+              </div>
+              <div class="actions"><button class="btn">この相手に連絡したい</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mock-card">
+        <div class="mock-head">
+          <h2>3. 連絡送信完了</h2>
+          <p>連絡したい意思が送れたことを参加者へ伝える画面です。</p>
+        </div>
+        <div class="note">このタイミングで、双方へメール通知が送られます。ここではじめて電話番号やメールアドレスが開示されます。</div>
+        <div class="phone">
+          <div class="phone-top"><strong>送信完了</strong><span>連絡希望が相手へ送られました</span></div>
+          <div class="screen">
+            <div class="success">株式会社リンクパートナーへ「連絡したい」を送信しました。双方にメール通知を送っています。今後のやり取りはメールを起点に進みます。</div>
+            <button class="btn">おすすめ一覧へ戻る</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mock-card">
+        <div class="mock-head">
+          <h2>4. 通知メールのイメージ</h2>
+          <p>連絡希望を送った後に、双方へ届くメールの見本です。</p>
+        </div>
+        <div class="note">クライアントが特に気にしやすい「その後どうつながるのか」を見えるように、メールのイメージも入れています。</div>
+        <div class="mailframe">
+          <div class="mail-top"><strong>通知メール</strong><span>連絡希望送信後に自動で届くメールの例</span></div>
+          <div class="mail-body">
+            <div class="mail-subject">件名： 【ビジネスマッチング】連絡希望が届きました</div>
+            <p>山田 太郎 様</p>
+            <p>ビジネスマッチングシステムをご利用いただきありがとうございます。以下の参加者から、あなたへ「連絡したい」が送信されました。</p>
+            <div class="mail-box">
+              <strong>送信元情報</strong><br>
+              会社名：株式会社サンプル<br>
+              氏名：山田 太郎<br>
+              役職：代表取締役<br>
+              電話番号：090-1234-5678<br>
+              メールアドレス：sample@example.co.jp
+            </div>
+            <p>必要に応じて、上記連絡先へ直接ご連絡ください。</p>
+            <p>※このメールはシステムより自動送信されています。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-title">運営側が使う画面</h2>
+    <div class="grid">
+      <div class="mock-card">
+        <div class="mock-head">
+          <h2>5. 管理ダッシュボード</h2>
+          <p>イベント当日に、どれくらい使われているかを確認する画面です。</p>
+        </div>
+        <div class="note">運営側は、登録数だけでなく「おすすめが見られたか」「連絡希望が送られたか」まで把握できます。</div>
+        <div class="phone">
+          <div class="phone-top"><strong>管理ダッシュボード</strong><span>当日の利用状況をひと目で確認</span></div>
+          <div class="screen">
+            <div class="metrics">
+              <div class="metric"><small>登録人数</small><strong>842</strong></div>
+              <div class="metric"><small>一覧表示数</small><strong>611</strong></div>
+              <div class="metric"><small>連絡希望数</small><strong>126</strong></div>
+              <div class="metric"><small>通知送信数</small><strong>119</strong></div>
+            </div>
+            <div class="box">
+              <h3>確認できること</h3>
+              <div class="field"><div class="input">参加者一覧を見る</div></div>
+              <div class="field"><div class="input">通知履歴を見る</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mock-card">
+        <div class="mock-head">
+          <h2>6. 参加者・通知確認</h2>
+          <p>運営側が登録情報や通知状況を確認する画面です。</p>
+        </div>
+        <div class="note">初回版では、運営側は基本的に「確認」が中心です。編集は行わず、状況把握を重視します。</div>
+        <div class="phone">
+          <div class="phone-top"><strong>参加者・通知確認</strong><span>登録状況と通知状況を確認</span></div>
+          <div class="screen">
+            <table>
+              <thead>
+                <tr><th>会社名</th><th>登録</th><th>通知</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>株式会社サンプル</td><td>完了</td><td>送信済み</td></tr>
+                <tr><td>株式会社リンクパートナー</td><td>完了</td><td>送信済み</td></tr>
+                <tr><td>合同会社ムービーグロース</td><td>完了</td><td>再送中</td></tr>
+                <tr><td>株式会社人材ブリッジ</td><td>未完了</td><td>未送信</td></tr>
+              </tbody>
+            </table>
+            <div class="note" style="margin-top:10px;">メール送信に失敗した場合は、自動で最大3回まで再送し、それでも送れない場合は「送信失敗」と表示します。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footnote">
+      <strong>このモックで伝えたいこと</strong><br>
+      今回は、機能を広げすぎず、<strong>「参加者が迷わず登録できる」「相手候補が一覧で分かる」「その場で連絡希望を送れる」「送信後はメールでつながる」「運営側が状況を把握できる」</strong>ことに絞っています。<br>
+      また、現在の課題と求めている相手を選択式中心にしているため、初回版でもシステムが判定しやすく、運用が安定しやすい設計です。
+    </div>
+  </div>
+</body>
+</html>
